@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Title of the document</title>
+
+<!-- Stylesheet -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+<link rel="stylesheet" type="text/css" href="diff2html.css">
+
+<!-- Javascripts -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/scala.min.js"></script>
+<script type="text/javascript" src="diff2html.js"></script>
+<script type="text/javascript" src="diff2html-ui.js"></script>
+</head>
+
+<body>
+
+<div id="#destination-elem-id"></div>
+
+<script type="text/javascript">	
+	$(document).ready(function() {
+	var lineDiffExample =
+"diff --git a/src/file-list-printer.js b/src/file-list-printer.js "+
+"index e408d9b..1e0a2c6 100644 "+
+"--- a/src/file-list-printer.js "+
+"+++ b/src/file-list-printer.js "+
+"@@ -8,11 +8,16 @@ "+
+" (function() { "+
+"   var printerUtils = require('./printer-utils.js').PrinterUtils; "+
+ 
+"-  var hoganUtils = require('./hoganjs-utils.js').HoganJsUtils; "+
+"+  var hoganUtils; "+
+
+"   var baseTemplatesPath = 'file-summary'; "+
+"   var iconsBaseTemplatesPath = 'icon'; "+
+ 
+"-  function FileListPrinter() { "+
+"+  function FileListPrinter(config) { "+
+"+    this.config = config; "+
+
+"+    var HoganJsUtils = require('./hoganjs-utils.js').HoganJsUtils; "+
+"+    hoganUtils = new HoganJsUtils(config); "+
+ "  } "+
+ 
+"   FileListPrinter.prototype.generateFileList = function(diffFiles) { "+
+"@@ -38,5 +43,5 @@ "+
+"     }); "+
+"   }; "+
+ 
+"-  module.exports.FileListPrinter = new FileListPrinter(); "+
+"+  module.exports.FileListPrinter = FileListPrinter; "+
+" })(); ";
+		var diffHtml = Diff2Html.getPrettyHtml( 
+		  lineDiffExample, 
+		  {inputFormat: 'diff', showFiles: true, matching: 'lines', outputFormat: 'side-by-side'} 
+		); 
+		document.getElementById("#destination-elem-id").innerHTML = diffHtml;
+	});
+</script>
+</body>
+
+</html>
